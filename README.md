@@ -95,4 +95,4 @@ This is a simulation created for skill development. Carrefour's company profile 
 
 **Kamal Rustamli**
 Business Administration Student, Baku Higher Oil School
-[LinkedIn][https://www.linkedin.com/in/kamal-rustamli-7545ab353/](#) · [Email][kamal.rustamliaze1@gmail.com](#)
+[[LinkedIn](https://www.linkedin.com/in/kamal-rustamli-7545ab353/)](#) · [Email](kamal.rustamliaze1@gmail.com)](#)
