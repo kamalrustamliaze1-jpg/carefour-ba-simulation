@@ -21,16 +21,16 @@ The company context and financial figures are based on Carrefour's public FY2025
 | # | Document | What it demonstrates |
 |---|----------|----------------------|
 | 01 | [Project Brief](01-project-brief.md) | Business context, problem statement, scope (in/out) |
-| 02 | [Stakeholder Analysis](docs/02-stakeholder-analysis.md) | Stakeholder register, power/interest grid, RACI matrix |
-| 03 | [Data & Dashboard](docs/03-data-dashboard.md) | Synthetic retail dataset analysis, dashboard design, findings |
-| 04 | [As-Is Process & BPMN](docs/04-as-is-process.md) | Current-state process mapping, pain-point analysis |
-| 05 | [Requirements](docs/05-requirements.md) | Functional & non-functional requirements (FR/NFR) |
-| 06 | [Business Rules](docs/06-business-rules.md) | Formal business rule register (BR-01 to BR-07) |
-| 07 | [To-Be Process & Solution](docs/07-to-be-process.md) | Target-state architecture, As-Is vs To-Be comparison |
-| 08 | [Use Cases & User Stories](docs/08-use-cases-user-stories.md) | Use case catalog, user stories by persona |
-| 09 | [Acceptance Criteria](docs/09-acceptance-criteria.md) | Given/When/Then criteria per user story |
-| 10 | [KPI & Evaluation](docs/10-kpi-evaluation.md) | Project-level and business-level KPI framework |
-| 11 | [Final BA Report](docs/11-final-report.md) | Executive summary, findings, recommendations |
+| 02 | [Stakeholder Analysis](02-stakeholder-analysis.md) | Stakeholder register, power/interest grid, RACI matrix |
+| 03 | [Data & Dashboard](03-data-dashboard.md) | Synthetic retail dataset analysis, dashboard design, findings |
+| 04 | [As-Is Process & BPMN](04-as-is-process.md) | Current-state process mapping, pain-point analysis |
+| 05 | [Requirements](05-requirements.md) | Functional & non-functional requirements (FR/NFR) |
+| 06 | [Business Rules](06-business-rules.md) | Formal business rule register (BR-01 to BR-07) |
+| 07 | [To-Be Process & Solution](07-to-be-process.md) | Target-state architecture, As-Is vs To-Be comparison |
+| 08 | [Use Cases & User Stories](08-use-cases-user-stories.md) | Use case catalog, user stories by persona |
+| 09 | [Acceptance Criteria](09-acceptance-criteria.md) | Given/When/Then criteria per user story |
+| 10 | [KPI & Evaluation](10-kpi-evaluation.md) | Project-level and business-level KPI framework |
+| 11 | [Final BA Report](11-final-report.md) | Executive summary, findings, recommendations |
 
 An interactive recreation of the dashboard's key charts (built with HTML/Chart.js) is in [`/dashboard`](dashboard/index.html) — open it directly in a browser or view it live via GitHub Pages (see setup below).
 
