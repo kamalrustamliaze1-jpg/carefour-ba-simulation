@@ -3,8 +3,8 @@
 
 **Author:** Kamal Rustamli · Baku Higher Oil School · August 2026
 
-[[Report](Carrefour_BA_Simulation_Final_Report.pdf)]
-[[Excel](Carrefour_Retail_Customer_Loyalty_Dashboard.xlsx)]
+[![Report](Carrefour_BA_Simulation_Final_Report.pdf)]
+[![Excel](Carrefour_Retail_Customer_Loyalty_Dashboard.xlsx)]
 
 ---
 
