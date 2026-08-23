@@ -1,7 +1,7 @@
 # Carrefour Business Analyst Simulation
 ### Omnichannel & AI-Driven Retail Transformation — End-to-End BA Portfolio Project
 
-**Author:** Kamal Rustamli · Baku Higher Oil School · August 2026
+**Author:** Kamal Rustamli 
 
 [[Report](Carrefour_BA_Simulation_Final_Report.pdf)]
 [[Excel](Carrefour_Retail_Customer_Loyalty_Dashboard.xlsx)]
@@ -95,4 +95,4 @@ This is a simulation created for skill development. Carrefour's company profile 
 
 **Kamal Rustamli**
 Business Administration Student, Baku Higher Oil School
-[LinkedIn - Kamal Rustamli](#) · [Email - kamal.rustamliaze1@gmail.com](#)
+[LinkedIn][https://www.linkedin.com/in/kamal-rustamli-7545ab353/](#) · [Email][kamal.rustamliaze1@gmail.com](#)
