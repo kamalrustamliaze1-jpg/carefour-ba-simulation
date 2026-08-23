@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Carrefour Retail — Sales Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --paper:#FBF6EA;
+    --paper-2:#F3EBD8;
+    --ink:#20281F;
+    --ink-soft:#4E5A47;
+    --line:#D8CBA9;
+    --tomato:#C1432B;
+    --citrus:#D98E2B;
+    --butter:#E8B93B;
+    --herb:#5B7F4B;
+    --grain:#8A6D3B;
+    --plum:#6B4C6B;
+    --rose:#B3728B;
+    --blueberry:#3A5C73;
+    --gold-deep:#A66B1E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px 80px;}
+
+  /* HEADER */
+  header{
+    padding:56px 28px 40px;
+    border-bottom:2px solid var(--ink);
+    background:
+      repeating-linear-gradient(115deg, rgba(32,40,31,0.035) 0 2px, transparent 2px 26px),
+      var(--paper);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--tomato);
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:8px;height:8px;background:var(--tomato);border-radius:50%;display:inline-block;}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(34px,5vw,58px);
+    line-height:1.02;
+    margin:0 0 14px;
+    letter-spacing:-.01em;
+    max-width:900px;
+  }
+  h1 em{font-style:italic;color:var(--herb);}
+  header p.sub{
+    max-width:640px;
+    font-size:16px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    margin:0;
+  }
+  .meta-row{
+    display:flex;
+    gap:32px;
+    flex-wrap:wrap;
+    margin-top:28px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .meta-row div span{display:block;color:var(--ink);font-weight:600;font-size:13px;margin-top:2px;}
+
+  /* TABS */
+  .tabs{
+    display:flex;
+    gap:0;
+    margin:0;
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--paper);
+    border-bottom:2px solid var(--ink);
+  }
+  .tab-btn{
+    flex:none;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:18px 28px;
+    background:transparent;
+    border:none;
+    border-right:1px solid var(--line);
+    cursor:pointer;
+    color:var(--ink-soft);
+    font-weight:500;
+    transition:all .15s ease;
+  }
+  .tab-btn.active{color:var(--ink);background:var(--ink);color:var(--paper);}
+  .tab-btn:hover:not(.active){color:var(--ink);background:var(--paper-2);}
+
+  .panel{display:none;padding-top:48px;}
+  .panel.active{display:block;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:6px;
+  }
+  .section-title h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:28px;
+    margin:0;
+  }
+  .section-title .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--paper);
+    background:var(--herb);
+    padding:4px 9px;
+    border-radius:3px;
+  }
+  .section-desc{color:var(--ink-soft);font-size:14.5px;max-width:640px;margin:10px 0 32px;line-height:1.5;}
+
+  /* RECEIPT STAT STRIP */
+  .receipt{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:4px;
+    overflow:hidden;
+    margin-bottom:36px;
+    position:relative;
+  }
+  .receipt::before, .receipt::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;
+    height:8px;
+    background:
+      radial-gradient(circle at 6px 4px, var(--paper) 4px, transparent 4.5px) repeat-x;
+    background-size:16px 8px;
+  }
+  .receipt::before{top:-4px;}
+  .receipt::after{bottom:-4px;transform:rotate(180deg);}
+  .stat{
+    padding:26px 22px;
+    border-right:1px dashed rgba(251,246,234,.25);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:rgba(251,246,234,.55);
+    margin-bottom:8px;
+  }
+  .stat .value{
+    font-family:'Fraunces',serif;
+    font-size:30px;
+    font-weight:600;
+    line-height:1;
+  }
+  .stat .value .unit{font-size:16px;opacity:.6;font-weight:400;}
+
+  /* GRID */
+  .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;margin-bottom:22px;}
+  .grid.two{grid-template-columns:1fr 1fr;}
+  @media(max-width:860px){.grid,.grid.two{grid-template-columns:1fr;}}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:24px 24px 18px;
+  }
+  .card h3{
+    font-family:'Fraunces',serif;
+    font-size:17px;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .card .note{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;}
+  .chart-holder{position:relative;width:100%;}
+  .chart-holder.tall{height:280px;}
+  .chart-holder.med{height:230px;}
+
+  /* HIGHLIGHT CARD (bakery) */
+  .highlight{
+    background:linear-gradient(135deg, var(--citrus), var(--tomato));
+    color:#fff;
+    border-radius:6px;
+    padding:26px 26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .highlight::after{
+    content:"◆";
+    position:absolute;
+    right:-10px;top:-20px;
+    font-size:150px;
+    color:rgba(255,255,255,.08);
+  }
+  .highlight .tagline{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.85;margin-bottom:8px;}
+  .highlight h3{font-family:'Fraunces',serif;font-size:30px;margin:0 0 10px;font-weight:600;}
+  .highlight p{margin:0;font-size:14.5px;line-height:1.5;opacity:.95;}
+  .highlight .big{font-family:'Fraunces',serif;font-size:22px;font-weight:600;display:block;margin-top:2px;}
+
+  /* observations */
+  .observations{
+    background:var(--paper-2);
+    border-left:3px solid var(--herb);
+    padding:20px 24px;
+    border-radius:0 6px 6px 0;
+    margin-top:8px;
+  }
+  .observations h4{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--herb);
+    margin:0 0 12px;
+  }
+  .observations ul{margin:0;padding-left:18px;}
+  .observations li{font-size:14px;line-height:1.6;color:var(--ink);margin-bottom:8px;}
+  .observations li:last-child{margin-bottom:0;}
+  .observations b{color:var(--tomato);}
+
+  .legend-row{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:14px;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+  .legend-dot{width:9px;height:9px;border-radius:2px;display:inline-block;}
+
+  footer{
+    margin-top:56px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap" style="padding:0;">
+    <div class="eyebrow">Carrefour · Omnichannel &amp; AI-Driven Retail Transformation</div>
+    <h1>Sales &amp; loyalty<br><em>at a glance.</em></h1>
+    <p class="sub">A redesigned read of the simulation's sales dataset — 5,000 transactions across 8 categories and 4 loyalty tiers — built for the Data &amp; Dashboard chapter of the Business Analyst report.</p>
+    <div class="meta-row">
+      <div>Dataset<span>Atlas Retail / Carrefour synthetic sales</span></div>
+      <div>Coverage<span>Jan – Dec, single fiscal year</span></div>
+      <div>Prepared by<span>Kamal Rustamli — BHOS, Aug 2026</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="wrap" style="padding:0;display:flex;">
+    <button class="tab-btn active" data-tab="overall">01 · Overall Performance</button>
+    <button class="tab-btn" data-tab="gold">02 · Gold Segment Deep-Dive</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- PANEL 1 -->
+  <section class="panel active" id="overall">
+    <div class="section-title"><h2>Overall Sales Performance</h2><span class="tag">All customers</span></div>
+    <p class="section-desc">Regional and loyalty-tier revenue, the annual sales rhythm, and category share across the full customer base.</p>
+
+    <div class="receipt">
+      <div class="stat"><div class="label">Total Revenue</div><div class="value">$522,367</div></div>
+      <div class="stat"><div class="label">Transactions</div><div class="value">5,000</div></div>
+      <div class="stat"><div class="label">Units Sold</div><div class="value">19,951</div></div>
+      <div class="stat"><div class="label">Avg. Transaction</div><div class="value">$104<span class="unit">.47</span></div></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Revenue by Loyalty Status</h3>
+        <div class="note">Basic and Platinum lead; Gold trails despite its margin strength (see panel 02).</div>
+        <div class="chart-holder tall"><canvas id="loyaltyChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Revenue by Product Category</h3>
+        <div class="note">Dairy leads at 19%, trailed by Bakery and Grocery.</div>
+        <div class="chart-holder tall"><canvas id="categoryDonut"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="grid-column:1 / -1;">
+        <h3>Monthly Revenue Trend</h3>
+        <div class="note">Revenue fluctuates between roughly €33,000 and €45,000 across the year.</div>
+        <div class="chart-holder med"><canvas id="trendChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="observations">
+      <h4>Key observations</h4>
+      <ul>
+        <li><b>Loyalty split:</b> Basic customers generate the most revenue, with Platinum a close second. Gold sits lowest overall — a signal that warrants the cohort analysis below.</li>
+        <li><b>Seasonality:</b> April and July form clear peaks, likely tied to seasonal campaigns or pre-holiday buying; September marks the year's low point.</li>
+        <li><b>Category mix:</b> Dairy (19%), Bakery (17%) and Grocery (15%) carry the category split; Beverages is the smallest share at 8%.</li>
+        <li><b>Basket size:</b> An average transaction of $104.47 is consistent with a standard supermarket-format basket.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PANEL 2 -->
+  <section class="panel" id="gold">
+    <div class="section-title"><h2>Gold Loyalty Segment</h2><span class="tag" style="background:var(--gold-deep);">Deep-dive</span></div>
+    <p class="section-desc">Isolating Gold-tier customers to understand why the segment under-performs on total revenue despite a strong margin profile.</p>
+
+    <div class="receipt" style="background:var(--gold-deep);">
+      <div class="stat"><div class="label">Segment Revenue</div><div class="value">$105K</div></div>
+      <div class="stat"><div class="label">Revenue Margin</div><div class="value">23%</div></div>
+      <div class="stat"><div class="label">Units Sold</div><div class="value">4,518</div></div>
+      <div class="stat"><div class="label">Top Category</div><div class="value" style="font-size:22px;">Bakery</div></div>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="display:flex;flex-direction:column;">
+        <h3>Quantity Bought by Category</h3>
+        <div class="note">Bakery leads decisively; Personal Care trails all categories.</div>
+        <div class="chart-holder tall" style="flex:1;"><canvas id="goldBarChart"></canvas></div>
+      </div>
+      <div class="highlight">
+        <div class="tagline">Category spotlight</div>
+        <h3>Bakery products</h3>
+        <p>The single largest driver of Gold-tier volume.
+          <span class="big">1,059 units · 23% of segment sales</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="grid-column:1 / -1;">
+        <h3>Gold Segment — Category Share</h3>
+        <div class="note">Bakery (23%), Fresh Produce (14%) and Dairy (12%) make up the top three.</div>
+        <div class="chart-holder tall"><canvas id="goldDonut"></canvas></div>
+      </div>
+    </div>
+
+    <div class="observations">
+      <h4>Key observations</h4>
+      <ul>
+        <li><b>Margin over volume:</b> Gold's 23% revenue margin is the strongest lens for comparing tiers — even with lower total revenue, Gold customers may be the most profitable to retain.</li>
+        <li><b>Bakery dominance:</b> Bakery holds the top spot in both the overall dataset and the Gold segment (1,059 units, 23% of sales) — a consistent cross-tier pattern.</li>
+        <li><b>Runner-up categories:</b> Fresh Produce (14%) and Dairy (12%) follow; Personal Care is the smallest at just 6%.</li>
+        <li><b>Open question:</b> Explaining Gold's low overall revenue share requires a cohort view — customer count and visit frequency — flagged as a formal requirement (FR-04) in the report.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="padding:0;display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:10px;">
+    <span>Source: Carrefour BA Simulation — Document 03, Data &amp; Dashboard</span>
+    <span>Redesigned for readability · original figures preserved</span>
+  </div>
+</footer>
+
+<script>
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#4E5A47';
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+const inkGrid = 'rgba(32,40,31,0.06)';
+
+// 1. Loyalty bar chart (approx proportions from source chart)
+new Chart(document.getElementById('loyaltyChart'), {
+  type:'bar',
+  data:{
+    labels:['Basic','Silver','Gold','Platinum'],
+    datasets:[{
+      data:[177072,119000,55073,171222],
+      backgroundColor:['#8A6D3B','#9AA5A0','#D98E2B','#3A5C73'],
+      borderRadius:5,
+      maxBarThickness:70
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toLocaleString()+' (approx.)'}}},
+    scales:{
+      y:{grid:{color:inkGrid}, ticks:{callback:v=>'$'+(v/1000)+'k'}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// 2. Category donut (overall)
+new Chart(document.getElementById('categoryDonut'), {
+  type:'doughnut',
+  data:{
+    labels:['Bakery','Beverages','Dairy','Fresh Produce','Grocery','Household','Personal Care','Snacks'],
+    datasets:[{
+      data:[17,8,19,13,15,10,9,9],
+      backgroundColor:['#C1432B','#3A5C73','#E8B93B','#5B7F4B','#8A6D3B','#6B4C6B','#B3728B','#D98E2B'],
+      borderColor:'#fff',
+      borderWidth:3
+    }]
+  },
+  options:{
+    cutout:'62%',
+    plugins:{legend:{position:'right', labels:{boxWidth:10, font:{size:11}, padding:12}}}
+  }
+});
+
+// 3. Monthly trend
+new Chart(document.getElementById('trendChart'), {
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets:[{
+      data:[39500,39000,39500,43500,37500,38500,44500,40000,33000,38500,40500,38000],
+      borderColor:'#C1432B',
+      backgroundColor:'rgba(193,67,43,0.08)',
+      fill:true,
+      tension:0.35,
+      pointRadius:4,
+      pointBackgroundColor:'#C1432B',
+      borderWidth:2.5
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>'€'+c.parsed.y.toLocaleString()+' (approx.)'}}},
+    scales:{
+      y:{grid:{color:inkGrid}, ticks:{callback:v=>'€'+(v/1000)+'k'}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// 4. Gold bar chart
+new Chart(document.getElementById('goldBarChart'), {
+  type:'bar',
+  data:{
+    labels:['Bakery','Beverages','Dairy','Fresh Produce','Grocery','Household','Personal Care','Snacks'],
+    datasets:[{
+      data:[1039,587,542,633,452,452,271,542],
+      backgroundColor:['#C1432B','#3A5C73','#E8B93B','#5B7F4B','#8A6D3B','#6B4C6B','#B3728B','#D98E2B'],
+      borderRadius:4
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{color:inkGrid}},
+      y:{grid:{display:false}, ticks:{font:{size:11.5}}}
+    }
+  }
+});
+
+// 5. Gold donut
+new Chart(document.getElementById('goldDonut'), {
+  type:'doughnut',
+  data:{
+    labels:['Bakery','Beverages','Dairy','Fresh Produce','Grocery','Household','Personal Care','Snacks'],
+    datasets:[{
+      data:[23,13,12,14,10,10,6,12],
+      backgroundColor:['#C1432B','#3A5C73','#E8B93B','#5B7F4B','#8A6D3B','#6B4C6B','#B3728B','#D98E2B'],
+      borderColor:'#fff',
+      borderWidth:3
+    }]
+  },
+  options:{
+    cutout:'62%',
+    plugins:{legend:{position:'right', labels:{boxWidth:10, font:{size:11}, padding:12}}}
+  }
+});
+</script>
+
+</body>
+</html>
