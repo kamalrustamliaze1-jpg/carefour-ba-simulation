@@ -5,7 +5,7 @@
 
 [[Report](Carrefour_BA_Simulation_Final_Report.pdf)]
 [[Excel](Carrefour_Retail_Customer_Loyalty_Dashboard.xlsx)]
-[[Dashboards](carrefour_dashboards.html)]
+[[Dashboards](file:///Users/rustamli/Desktop/carrefour_dashboards.html)]
 ---
 
 ## About This Project
