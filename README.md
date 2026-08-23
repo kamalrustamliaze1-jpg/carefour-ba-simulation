@@ -20,7 +20,7 @@ The company context and financial figures are based on Carrefour's public FY2025
 
 | # | Document | What it demonstrates |
 |---|----------|----------------------|
-| 01 | [Project Brief](docs/01-project-brief.md) | Business context, problem statement, scope (in/out) |
+| 01 | [Project Brief](01-project-brief.md) | Business context, problem statement, scope (in/out) |
 | 02 | [Stakeholder Analysis](docs/02-stakeholder-analysis.md) | Stakeholder register, power/interest grid, RACI matrix |
 | 03 | [Data & Dashboard](docs/03-data-dashboard.md) | Synthetic retail dataset analysis, dashboard design, findings |
 | 04 | [As-Is Process & BPMN](docs/04-as-is-process.md) | Current-state process mapping, pain-point analysis |
