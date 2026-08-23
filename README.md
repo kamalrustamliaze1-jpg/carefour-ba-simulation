@@ -3,7 +3,7 @@
 
 **Author:** Kamal Rustamli · Baku Higher Oil School · August 2026
 
-[![Business Analysis](Carrefour_BA_Simulation_Final_Report.pdf)]()
+[![Business Analysis](Carrefour_BA_Simulation_Final_Report.pdf)]
 [![Excel](https://img.shields.io/badge/Tool-Excel%20%2F%20PivotTable-217346)]()
 
 ---
