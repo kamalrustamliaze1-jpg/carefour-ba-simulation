@@ -5,8 +5,6 @@
 
 [![Business Analysis](https://img.shields.io/badge/Domain-Business%20Analysis-blue)]()
 [![Excel](https://img.shields.io/badge/Tool-Excel%20%2F%20PivotTable-217346)]()
-[![Retail](https://img.shields.io/badge/Industry-Retail-orange)]()
-[![Status](https://img.shields.io/badge/Status-Completed-brightgreen)]()
 
 ---
 
