@@ -5,7 +5,7 @@
 
 [[Report](Carrefour_BA_Simulation_Final_Report.pdf)]
 [[Excel](Carrefour_Retail_Customer_Loyalty_Dashboard.xlsx)]
-[[Dashboards](file:///Users/rustamli/Desktop/carrefour_dashboards.html)]
+[[Dashboards](https://agent-6a8b8ac83974a18f12ed5396--dashboardcarre4.netlify.app)]
 ---
 
 ## About This Project
